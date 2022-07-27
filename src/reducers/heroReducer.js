@@ -1,6 +1,6 @@
-
 const CREATE_HERO = 'CREATE_HERO'
 const DELETE_HERO = 'DELETE_HERO'
+const PARSE_HEROES = 'PARSE_HEROES'
 const HEROES_FETCHING = 'HEROES_FETCHING'
 const HEROES_FETCHED = 'HEROES_FETCHED'
 const HEROES_FETCHING_ERROR = 'HEROES_FETCHING_ERROR'
@@ -28,8 +28,19 @@ export const heroReducer = (state = initialState, action) => {
                 ...state,
                 heroesLoadingStatus: 'error'
             }
+        case PARSE_HEROES:
+            return {
+                ...state,
+                heroes: state.heroes.map(hero => {
+                    if (typeof hero === 'string') return JSON.parse(hero)
+                    return hero
+                })
+            }
         case CREATE_HERO:
-            return state
+            return {
+                ...state,
+                heroes: [...state.heroes, action.payload]
+            }
         case DELETE_HERO:
             return {
                 ...state,

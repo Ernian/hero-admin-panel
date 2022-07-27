@@ -1,8 +1,12 @@
 import { useHttp } from '../../hooks/http.hook';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { heroesFetching, heroesFetched, heroesFetchingError, createHero, deleteHero } from '../../actions';
+import {
+    heroesFetching,
+    heroesFetched,
+    heroesFetchingError,
+    deleteHero,
+} from '../../actions';
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
 
@@ -47,7 +51,7 @@ const HeroesList = () => {
     }
 
     const onDeleteHero = heroId => {
-        request(`http://localhost:3001/heroes/${heroId}`, 'DELETE')
+        request(`http://localhost:3001/heroes/${heroId}`, "DELETE")
             .then(() => dispatch(deleteHero(heroId)))
             .catch(() => dispatch(heroesFetchingError()))
     }
