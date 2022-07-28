@@ -28,10 +28,8 @@ const HeroesAddForm = () => {
     const { request } = useHttp()
     const dispatch = useDispatch()
     const filters = useSelector(state => state.filters.filters)
-    console.log('hero form', filters)
 
     useEffect(() => {
-        console.log('useEffect hero form')
         dispatch(filtersFetching())
         request('http://localhost:3001/filters')
             .then(data => dispatch(filtersFetched(data)))
