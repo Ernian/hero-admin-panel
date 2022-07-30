@@ -1,10 +1,12 @@
 const FILTERS_FETCHING = 'FILTERS_FETCHING'
 const FILTERS_FETCHED = 'FILTERS_FETCHED'
 const FILTERS_FETCHING_ERROR = 'FILTERS_FETCHING_ERROR'
+const SET_ACTIVE_FILTER = 'SET_ACTIVE_FILTER'
 
 const initialState = {
     filtersLoadingStatus: 'idle',
     filters: [],
+    activeFilter: null
 }
 
 export const filterReducer = (state = initialState, action) => {
@@ -24,6 +26,11 @@ export const filterReducer = (state = initialState, action) => {
             return {
                 ...state,
                 filtersLoadingStatus: 'error'
+            }
+        case SET_ACTIVE_FILTER:
+            return {
+                ...state,
+                activeFilter: action.payload
             }
         default:
             return state

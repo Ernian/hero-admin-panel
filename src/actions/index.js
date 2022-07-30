@@ -7,6 +7,7 @@ const HEROES_FETCHING_ERROR = 'HEROES_FETCHING_ERROR'
 const FILTERS_FETCHING = 'FILTERS_FETCHING'
 const FILTERS_FETCHED = 'FILTERS_FETCHED'
 const FILTERS_FETCHING_ERROR = 'FILTERS_FETCHING_ERROR'
+const SET_ACTIVE_FILTER = 'SET_ACTIVE_FILTER'
 
 export const createHero = hero => ({
     type: CREATE_HERO,
@@ -45,4 +46,9 @@ export const filtersFetched = filters => ({
 
 export const filtersFetchingError = () => ({
     type: FILTERS_FETCHING_ERROR
+})
+
+export const setActiveFilter = filter => ({
+    type: SET_ACTIVE_FILTER,
+    payload: filter
 })

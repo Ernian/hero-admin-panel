@@ -1,58 +1,56 @@
 {
-    "heroes": [
-        {
-            "id": 1,
-            "name": "Первый герой",
-            "description": "Первый герой в рейтинге!",
-            "element": "fire"
-        },
-        {
-            "id": 2,
-            "name": "Неизвестный герой",
-            "description": "Скрывающийся в тени",
-            "element": "wind"
-        },
-        {
-            "id": 3,
-            "name": "Морской герой",
-            "description": "Как аквамен, но не из DC",
-            "element": "water"
-        },
-        {
-            "id": "63e4ef3e-afad-4a1c-9753-10d3eaef065d",
-            "name": "fireMan",
-            "description": "wowowowo",
-            "element": "fire"
-        },
-        {
-            "id": "bc28601e-dfcc-43b4-8f56-add54caa23ed",
-            "name": "yoMan",
-            "description": "nothing",
-            "element": "wind"
-        },
-        {
-            "id": "7ee3c69b-21aa-4ebd-8679-caa6ddd643fd",
-            "name": "g",
-            "description": "f",
-            "element": "water"
-        }
-    ],
-    "filters": [
-        {
-            "filter": "fire",
-            "lable": "Огонь"
-        },
-        {
-            "filter": "water",
-            "lable": "Вода"
-        },
-        {
-            "filter": "wind",
-            "lable": "Ветер"
-        },
-        {
-            "filter": "earth",
-            "lable": "Земля"
-        }
-    ]
+  "heroes": [
+    {
+      "id": 1,
+      "name": "Первый герой",
+      "description": "Первый герой в рейтинге!",
+      "element": "fire"
+    },
+    {
+      "id": 2,
+      "name": "Неизвестный герой",
+      "description": "Скрывающийся в тени",
+      "element": "wind"
+    },
+    {
+      "id": 3,
+      "name": "Морской герой",
+      "description": "Как аквамен, но не из DC",
+      "element": "water"
+    },
+    {
+      "id": "63e4ef3e-afad-4a1c-9753-10d3eaef065d",
+      "name": "fireMan",
+      "description": "wowowowo",
+      "element": "fire"
+    },
+    {
+      "id": "bc28601e-dfcc-43b4-8f56-add54caa23ed",
+      "name": "yoMan",
+      "description": "nothing",
+      "element": "wind"
+    }
+  ],
+  "filters": [
+    {
+      "filter": "fire",
+      "lable": "Огонь",
+      "classNames": "btn btn-danger"
+    },
+    {
+      "filter": "water",
+      "lable": "Вода",
+      "classNames": "btn btn-primary"
+    },
+    {
+      "filter": "wind",
+      "lable": "Ветер",
+      "classNames": "btn btn-success"
+    },
+    {
+      "filter": "earth",
+      "lable": "Земля",
+      "classNames": "btn btn-secondary"
+    }
+  ]
 }

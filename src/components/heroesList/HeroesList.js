@@ -5,18 +5,17 @@ import {
     heroesFetching,
     heroesFetched,
     heroesFetchingError,
+    filtersFetching,
+    filtersFetched,
+    filtersFetchingError,
     deleteHero,
 } from '../../actions';
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
 
-// Задача для этого компонента:
-// При клике на "крестик" идет удаление персонажа из общего состояния
-// Усложненная задача:
-// Удаление идет и с json файла при помощи метода DELETE
-
 const HeroesList = () => {
     const { heroes, heroesLoadingStatus } = useSelector(state => state.heroes);
+    const { activeFilter } = useSelector(state => state.filters)
     const dispatch = useDispatch();
     const { request } = useHttp();
 
@@ -26,6 +25,10 @@ const HeroesList = () => {
             .then(data => dispatch(heroesFetched(data)))
             .catch(() => dispatch(heroesFetchingError()))
 
+        dispatch(filtersFetching())
+        request('http://localhost:3001/filters')
+            .then(data => dispatch(filtersFetched(data)))
+            .catch(() => dispatch(filtersFetchingError()))
         // eslint-disable-next-line
     }, []);
 
@@ -35,15 +38,19 @@ const HeroesList = () => {
         return <h5 className="text-center mt-5">Ошибка загрузки</h5>
     }
 
-    const renderHeroesList = (arr) => {
-        if (arr.length === 0) {
+    const filterHeroList = heroesList => {
+        return heroesList.filter(({ element }) => !activeFilter || element === activeFilter)
+    }
+
+    const renderHeroesList = (fileredHeroes) => {
+        if (fileredHeroes.length === 0) {
             return <h5 className="text-center mt-5">Героев пока нет</h5>
         }
-
-        return arr.map(({ id, ...props }) => {
+        return fileredHeroes.map(({ id, element, ...props }) => {
             return <HeroesListItem
                 key={id}
                 id={id}
+                element={element}
                 {...props}
                 onDeleteHero={onDeleteHero}
             />
@@ -56,10 +63,9 @@ const HeroesList = () => {
             .catch(() => dispatch(heroesFetchingError()))
     }
 
-    const elements = renderHeroesList(heroes);
     return (
         <ul>
-            {elements}
+            {renderHeroesList(filterHeroList(heroes))}
         </ul>
     )
 }
