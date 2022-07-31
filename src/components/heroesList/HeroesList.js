@@ -9,12 +9,13 @@ import {
     filtersFetched,
     filtersFetchingError,
     deleteHero,
+    setIdUpdateHero
 } from '../../actions';
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
 
 const HeroesList = () => {
-    const { heroes, heroesLoadingStatus } = useSelector(state => state.heroes);
+    const { heroes, heroesLoadingStatus, updateHeroId } = useSelector(state => state.heroes);
     const { activeFilter } = useSelector(state => state.filters)
     const dispatch = useDispatch();
     const { request } = useHttp();
@@ -53,6 +54,8 @@ const HeroesList = () => {
                 element={element}
                 {...props}
                 onDeleteHero={onDeleteHero}
+                onSetIdUpdateHero={onSetIdUpdateHero}
+                updateHeroId={updateHeroId}
             />
         })
     }
@@ -62,6 +65,8 @@ const HeroesList = () => {
             .then(() => dispatch(deleteHero(heroId)))
             .catch(() => dispatch(heroesFetchingError()))
     }
+
+    const onSetIdUpdateHero = heroId => dispatch(setIdUpdateHero(heroId))
 
     return (
         <ul>

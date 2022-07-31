@@ -1,17 +1,12 @@
-// Задача для этого компонента:
-// Реализовать создание нового героя с введенными данными. Он должен попадать
-// в общее состояние и отображаться в списке + фильтроваться
-// Уникальный идентификатор персонажа можно сгенерировать через uiid
-// Усложненная задача:
-// Персонаж создается и в файле json при помощи метода POST
-// Дополнительно:
-// Элементы <option></option> желательно сформировать на базе
-// данных из фильтров
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+    heroesFetching,
+    heroesFetched,
     heroesFetchingError,
     createHero,
+    setIdUpdateHero,
+    updateHero,
     filtersFetching,
     filtersFetched,
     filtersFetchingError,
@@ -25,17 +20,28 @@ const HeroesAddForm = () => {
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
     const [element, setElement] = useState('')
+    const [selectedHero, setSelectedHero] = useState({})
     const { request } = useHttp()
     const dispatch = useDispatch()
     const filters = useSelector(state => state.filters.filters)
+    const { updateHeroId, heroes } = useSelector(state => state.heroes)
 
     useEffect(() => {
+        dispatch(heroesFetching());
+        request("http://localhost:3001/heroes")
+            .then(data => dispatch(heroesFetched(data)))
+            .catch(() => dispatch(heroesFetchingError()))
+
         dispatch(filtersFetching())
         request('http://localhost:3001/filters')
             .then(data => dispatch(filtersFetched(data)))
             .catch(() => dispatch(filtersFetchingError()))
         // eslint-disable-next-line
     }, [])
+
+    useEffect(() => {
+        getHeroInfo()
+    }, [updateHeroId])
 
     function onChangeName(event) {
         setName(event.target.value)
@@ -53,6 +59,9 @@ const HeroesAddForm = () => {
         setName('')
         setDescription('')
         setElement('')
+        if (updateHeroId) {
+            dispatch(setIdUpdateHero(null))
+        }
     }
 
     function onCreateHero(event) {
@@ -71,16 +80,54 @@ const HeroesAddForm = () => {
             .catch(() => dispatch(heroesFetchingError()))
     }
 
+    function onUpdateHero(event) {
+        event.preventDefault()
+        const hero = JSON.stringify({
+            id: updateHeroId,
+            name,
+            description,
+            element
+        })
+        // request(('http://localhost:3001/heroes', 'PUT', hero))
+        request(`http://localhost:3001/heroes/${updateHeroId}`, 'PUT', hero)
+            .then(() => {
+
+                dispatch(updateHero(hero))
+            })
+            .then(() => dispatch(parseHeroes()))
+            .then(() => clearForm())
+            .catch(() => dispatch(heroesFetchingError()))
+    }
+
     function getOptions() {
         return filters.map(({ filter, lable }) => {
             return <option value={filter} key={filter}>{lable}</option>
         })
     }
 
+    function getHeroInfo() {
+        if (!updateHeroId) return
+        const hero = heroes.find(({ id }) => id === updateHeroId)
+        setName(hero.name)
+        setDescription(hero.description)
+        setElement(hero.element)
+        setSelectedHero(hero)
+    }
+
+    function checkUpdateHeroInfo() {
+        return name === selectedHero.name
+            && description === selectedHero.description
+            && element === selectedHero.element
+    }
+
+    const nameLable = updateHeroId ? 'Имя героя' : 'Имя нового героя'
+    const elementLable = updateHeroId ? 'Изменить элемент героя' : 'Выбрать элемент героя'
+    const buttonLable = updateHeroId ? 'Обновить' : 'Создать'
+
     return (
         <form className="border p-4 shadow-lg rounded">
             <div className="mb-3">
-                <label htmlFor="name" className="form-label fs-4">Имя нового героя</label>
+                <label htmlFor="name" className="form-label fs-4">{nameLable}</label>
                 <input
                     required
                     type="text"
@@ -108,7 +155,7 @@ const HeroesAddForm = () => {
             </div>
 
             <div className="mb-3">
-                <label htmlFor="element" className="form-label">Выбрать элемент героя</label>
+                <label htmlFor="element" className="form-label">{elementLable}</label>
                 <select
                     required
                     className="form-select"
@@ -125,9 +172,18 @@ const HeroesAddForm = () => {
             <button
                 type="submit"
                 className="btn btn-primary"
-                disabled={!(name && description && element)}
-                onClick={onCreateHero}
-            >Создать</button>
+                disabled={!(name && description && element) || checkUpdateHeroInfo()}
+                onClick={updateHeroId ? onUpdateHero : onCreateHero}
+            >
+                {buttonLable}
+            </button>
+            <button
+                type="button"
+                className="btn btn-secondary"
+                style={{ marginLeft: '20px' }}
+                disabled={!(name || description || element)}
+                onClick={clearForm}
+            >Очистить форму</button>
         </form>
     )
 }

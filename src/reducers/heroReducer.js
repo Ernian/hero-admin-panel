@@ -1,13 +1,18 @@
-const CREATE_HERO = 'CREATE_HERO'
-const DELETE_HERO = 'DELETE_HERO'
-const PARSE_HEROES = 'PARSE_HEROES'
-const HEROES_FETCHING = 'HEROES_FETCHING'
-const HEROES_FETCHED = 'HEROES_FETCHED'
-const HEROES_FETCHING_ERROR = 'HEROES_FETCHING_ERROR'
+import {
+    CREATE_HERO,
+    DELETE_HERO,
+    SET_ID_UPDATE_HERO,
+    UPDATE_HERO,
+    PARSE_HEROES,
+    HEROES_FETCHING,
+    HEROES_FETCHED,
+    HEROES_FETCHING_ERROR
+} from '../actions'
 
 const initialState = {
     heroesLoadingStatus: 'idle',
     heroes: [],
+    updateHeroId: null
 }
 
 export const heroReducer = (state = initialState, action) => {
@@ -45,6 +50,25 @@ export const heroReducer = (state = initialState, action) => {
             return {
                 ...state,
                 heroes: state.heroes.filter(hero => hero.id !== action.payload)
+            }
+        case SET_ID_UPDATE_HERO:
+            return {
+                ...state,
+                updateHeroId: action.payload
+            }
+        case UPDATE_HERO:
+            const payload = JSON.parse(action.payload)
+            const updatedHeroes = state.heroes.reduce((heroes, hero) => {
+                if (hero.id === payload.id) {
+                    heroes = [...heroes, payload]
+                } else {
+                    heroes = [...heroes, hero]
+                }
+                return heroes
+            }, [])
+            return {
+                ...state,
+                heroes: updatedHeroes
             }
         default:
             return state

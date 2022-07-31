@@ -1,20 +1,33 @@
-const CREATE_HERO = 'CREATE_HERO'
-const DELETE_HERO = 'DELETE_HERO'
-const PARSE_HEROES = 'PARSE_HEROES'
-const HEROES_FETCHING = 'HEROES_FETCHING'
-const HEROES_FETCHED = 'HEROES_FETCHED'
-const HEROES_FETCHING_ERROR = 'HEROES_FETCHING_ERROR'
-const FILTERS_FETCHING = 'FILTERS_FETCHING'
-const FILTERS_FETCHED = 'FILTERS_FETCHED'
-const FILTERS_FETCHING_ERROR = 'FILTERS_FETCHING_ERROR'
-const SET_ACTIVE_FILTER = 'SET_ACTIVE_FILTER'
+export const CREATE_HERO = 'CREATE_HERO'
+export const DELETE_HERO = 'DELETE_HERO'
+export const UPDATE_HERO = 'UPDATE_HERO'
+export const SET_ID_UPDATE_HERO = 'SET_ID_UPDATE_HERO'
+export const PARSE_HEROES = 'PARSE_HEROES'
+export const HEROES_FETCHING = 'HEROES_FETCHING'
+export const HEROES_FETCHED = 'HEROES_FETCHED'
+export const HEROES_FETCHING_ERROR = 'HEROES_FETCHING_ERROR'
+export const FILTERS_FETCHING = 'FILTERS_FETCHING'
+export const FILTERS_FETCHED = 'FILTERS_FETCHED'
+export const FILTERS_FETCHING_ERROR = 'FILTERS_FETCHING_ERROR'
+export const SET_ACTIVE_FILTER = 'SET_ACTIVE_FILTER'
 
 export const createHero = hero => ({
     type: CREATE_HERO,
     payload: hero
 })
+
 export const deleteHero = heroId => ({
     type: DELETE_HERO,
+    payload: heroId
+})
+
+export const updateHero = hero => ({
+    type: UPDATE_HERO,
+    payload: hero
+})
+
+export const setIdUpdateHero = heroId => ({
+    type: SET_ID_UPDATE_HERO,
     payload: heroId
 })
 

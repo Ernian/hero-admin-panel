@@ -1,5 +1,14 @@
 
-const HeroesListItem = ({ id, name, description, element, onDeleteHero }) => {
+const HeroesListItem = ({
+    id,
+    name,
+    description,
+    element,
+    onDeleteHero,
+    onSetIdUpdateHero,
+    updateHeroId
+}) => {
+
     let elementClassName;
 
     switch (element) {
@@ -19,9 +28,12 @@ const HeroesListItem = ({ id, name, description, element, onDeleteHero }) => {
             elementClassName = 'bg-warning bg-gradient';
     }
 
+    const classes = id === updateHeroId ?
+        `card flex-row mb-4 shadow-lg text-white update-hero ${elementClassName}`
+        : `card flex-row mb-4 shadow-lg text-white ${elementClassName}`
+
     return (
-        <li
-            className={`card flex-row mb-4 shadow-lg text-white ${elementClassName}`}>
+        <li className={classes}>
             <img src="http://www.stpaulsteinbach.org/wp-content/uploads/2014/09/unknown-hero.jpg"
                 className="img-fluid w-25 d-inline"
                 alt="unknown hero"
@@ -30,6 +42,12 @@ const HeroesListItem = ({ id, name, description, element, onDeleteHero }) => {
 
                 <h3 className="card-title">{name}</h3>
                 <p className="card-text">{description}</p>
+                <button
+                    type="button"
+                    className="btn btn-warning"
+                    aria-label="Update"
+                    onClick={() => onSetIdUpdateHero(id)}
+                >Изменить данные</button>
             </div>
             <span className="position-absolute top-0 start-100 translate-middle badge border rounded-pill bg-light">
                 <button

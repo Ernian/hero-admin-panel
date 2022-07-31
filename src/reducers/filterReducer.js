@@ -1,7 +1,9 @@
-const FILTERS_FETCHING = 'FILTERS_FETCHING'
-const FILTERS_FETCHED = 'FILTERS_FETCHED'
-const FILTERS_FETCHING_ERROR = 'FILTERS_FETCHING_ERROR'
-const SET_ACTIVE_FILTER = 'SET_ACTIVE_FILTER'
+import {
+    FILTERS_FETCHING,
+    FILTERS_FETCHED,
+    FILTERS_FETCHING_ERROR,
+    SET_ACTIVE_FILTER,
+} from '../actions'
 
 const initialState = {
     filtersLoadingStatus: 'idle',

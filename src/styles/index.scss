@@ -10,4 +10,10 @@
 
 ul {
     padding: 0;
+    user-select: none;
+}
+
+.update-hero {
+    transform: scale(1.05);
+    transition: all .3s;
 }
