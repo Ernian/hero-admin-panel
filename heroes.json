@@ -3,7 +3,7 @@
     {
       "id": 1,
       "name": "Первый герой",
-      "description": "Первый герой в рейтинге!",
+      "description": "Первый герой в рейтинге!!",
       "element": "fire"
     },
     {
@@ -23,12 +23,6 @@
       "name": "fireMan",
       "description": "wowowowooo",
       "element": "fire"
-    },
-    {
-      "id": "bc28601e-dfcc-43b4-8f56-add54caa23ed",
-      "name": "yoMan",
-      "description": "nothiiiiinggg",
-      "element": "wind"
     }
   ],
   "filters": [

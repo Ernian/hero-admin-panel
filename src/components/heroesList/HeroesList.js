@@ -1,6 +1,7 @@
 import { useHttp } from '../../hooks/http.hook';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { CSSTransition, TransitionGroup, } from 'react-transition-group';
 import {
     heroesFetching,
     heroesFetched,
@@ -43,21 +44,33 @@ const HeroesList = () => {
         return heroesList.filter(({ element }) => !activeFilter || element === activeFilter)
     }
 
-    const renderHeroesList = (fileredHeroes) => {
-        if (fileredHeroes.length === 0) {
-            return <h5 className="text-center mt-5">Героев пока нет</h5>
-        }
-        return fileredHeroes.map(({ id, element, ...props }) => {
-            return <HeroesListItem
-                key={id}
-                id={id}
-                element={element}
-                {...props}
-                onDeleteHero={onDeleteHero}
-                onSetIdUpdateHero={onSetIdUpdateHero}
-                updateHeroId={updateHeroId}
-            />
+    const renderHeroesList = filteredHeroes => {
+        if (!filteredHeroes.length) return null
+        return filteredHeroes.map(({ id, element, ...props }) => {
+            return (
+                <CSSTransition
+                    key={id}
+                    timeout={300}
+                    classNames="hero"
+                >
+                    <HeroesListItem
+                        key={id}
+                        id={id}
+                        element={element}
+                        {...props}
+                        onDeleteHero={onDeleteHero}
+                        onSetIdUpdateHero={onSetIdUpdateHero}
+                        updateHeroId={updateHeroId}
+                    />
+                </CSSTransition>
+            )
         })
+    }
+
+    const renderNoHeroe = filteredHeroes => {
+        return !filteredHeroes.length ?
+            <h5 className="text-center mt-5">Героев пока нет</h5>
+            : null
     }
 
     const onDeleteHero = heroId => {
@@ -69,9 +82,12 @@ const HeroesList = () => {
     const onSetIdUpdateHero = heroId => dispatch(setIdUpdateHero(heroId))
 
     return (
-        <ul>
-            {renderHeroesList(filterHeroList(heroes))}
-        </ul>
+        < ul >
+            {renderNoHeroe(filterHeroList(heroes))}
+            <TransitionGroup>
+                {renderHeroesList(filterHeroList(heroes))}
+            </TransitionGroup>
+        </ul >
     )
 }
 
