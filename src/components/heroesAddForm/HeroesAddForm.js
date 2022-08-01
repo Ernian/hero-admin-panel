@@ -1,16 +1,9 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-    heroesFetching,
-    heroesFetched,
-    heroesFetchingError,
-    createHero,
+    createHeroThunk,
+    updateHeroThunk,
     setIdUpdateHero,
-    updateHero,
-    filtersFetching,
-    filtersFetched,
-    filtersFetchingError,
-    parseHeroes
 } from '../../actions';
 import { useHttp } from '../../hooks/http.hook'
 import { v4 as uuidv4 } from 'uuid'
@@ -25,19 +18,6 @@ const HeroesAddForm = () => {
     const dispatch = useDispatch()
     const filters = useSelector(state => state.filters.filters)
     const { updateHeroId, heroes } = useSelector(state => state.heroes)
-
-    useEffect(() => {
-        dispatch(heroesFetching());
-        request("http://localhost:3001/heroes")
-            .then(data => dispatch(heroesFetched(data)))
-            .catch(() => dispatch(heroesFetchingError()))
-
-        dispatch(filtersFetching())
-        request('http://localhost:3001/filters')
-            .then(data => dispatch(filtersFetched(data)))
-            .catch(() => dispatch(filtersFetchingError()))
-        // eslint-disable-next-line
-    }, [])
 
     useEffect(() => {
         getHeroInfo()
@@ -73,11 +53,7 @@ const HeroesAddForm = () => {
             description,
             element
         })
-        request('http://localhost:3001/heroes', 'POST', hero)
-            .then(() => dispatch(createHero(hero)))
-            .then(() => dispatch(parseHeroes()))
-            .then(() => clearForm())
-            .catch(() => dispatch(heroesFetchingError()))
+        dispatch(createHeroThunk(request, hero, clearForm))
     }
 
     function onUpdateHero(event) {
@@ -88,15 +64,7 @@ const HeroesAddForm = () => {
             description,
             element
         })
-        // request(('http://localhost:3001/heroes', 'PUT', hero))
-        request(`http://localhost:3001/heroes/${updateHeroId}`, 'PUT', hero)
-            .then(() => {
-
-                dispatch(updateHero(hero))
-            })
-            .then(() => dispatch(parseHeroes()))
-            .then(() => clearForm())
-            .catch(() => dispatch(heroesFetchingError()))
+        dispatch(updateHeroThunk(request, updateHeroId, hero, clearForm))
     }
 
     function getOptions() {

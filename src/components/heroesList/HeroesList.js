@@ -3,13 +3,8 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CSSTransition, TransitionGroup, } from 'react-transition-group';
 import {
-    heroesFetching,
-    heroesFetched,
-    heroesFetchingError,
-    filtersFetching,
-    filtersFetched,
-    filtersFetchingError,
-    deleteHero,
+    fetchHeroesThunk,
+    deleteHeroThunk,
     setIdUpdateHero
 } from '../../actions';
 import HeroesListItem from "../heroesListItem/HeroesListItem";
@@ -22,16 +17,7 @@ const HeroesList = () => {
     const { request } = useHttp();
 
     useEffect(() => {
-        dispatch(heroesFetching());
-        request("http://localhost:3001/heroes")
-            .then(data => dispatch(heroesFetched(data)))
-            .catch(() => dispatch(heroesFetchingError()))
-
-        dispatch(filtersFetching())
-        request('http://localhost:3001/filters')
-            .then(data => dispatch(filtersFetched(data)))
-            .catch(() => dispatch(filtersFetchingError()))
-        // eslint-disable-next-line
+        dispatch(fetchHeroesThunk(request))
     }, []);
 
     if (heroesLoadingStatus === "loading") {
@@ -43,6 +29,9 @@ const HeroesList = () => {
     const filterHeroList = heroesList => {
         return heroesList.filter(({ element }) => !activeFilter || element === activeFilter)
     }
+
+    const onDeleteHero = heroId => dispatch(deleteHeroThunk(request, heroId))
+    const onSetIdUpdateHero = heroId => dispatch(setIdUpdateHero(heroId))
 
     const renderHeroesList = filteredHeroes => {
         if (!filteredHeroes.length) return null
@@ -67,23 +56,15 @@ const HeroesList = () => {
         })
     }
 
-    const renderNoHeroe = filteredHeroes => {
+    const renderNoHeroes = filteredHeroes => {
         return !filteredHeroes.length ?
             <h5 className="text-center mt-5">Героев пока нет</h5>
             : null
     }
 
-    const onDeleteHero = heroId => {
-        request(`http://localhost:3001/heroes/${heroId}`, "DELETE")
-            .then(() => dispatch(deleteHero(heroId)))
-            .catch(() => dispatch(heroesFetchingError()))
-    }
-
-    const onSetIdUpdateHero = heroId => dispatch(setIdUpdateHero(heroId))
-
     return (
         < ul >
-            {renderNoHeroe(filterHeroList(heroes))}
+            {renderNoHeroes(filterHeroList(heroes))}
             <TransitionGroup>
                 {renderHeroesList(filterHeroList(heroes))}
             </TransitionGroup>
