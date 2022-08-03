@@ -7,6 +7,12 @@ import {
     updateHero,
     parseHeroes,
 } from '../components/heroesList/heroesSlice'
+import {
+    filtersFetching,
+    filtersFetched,
+    filtersFetchingError,
+} from '../components/heroesFilters/filtersSlice'
+
 
 export const FILTERS_FETCHING = 'FILTERS_FETCHING'
 export const FILTERS_FETCHED = 'FILTERS_FETCHED'
@@ -48,21 +54,3 @@ export const updateHeroThunk = (request, updateHeroId, hero, clearForm) => dispa
         .then(() => clearForm())
         .catch(() => dispatch(heroesFetchingError()))
 }
-
-export const filtersFetching = () => ({
-    type: FILTERS_FETCHING
-})
-
-export const filtersFetched = filters => ({
-    type: FILTERS_FETCHED,
-    payload: filters
-})
-
-export const filtersFetchingError = () => ({
-    type: FILTERS_FETCHING_ERROR
-})
-
-export const setActiveFilter = filter => ({
-    type: SET_ACTIVE_FILTER,
-    payload: filter
-})

@@ -1,9 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-    fetchFiltersThunk,
-    setActiveFilter,
-} from '../../actions';
+import { fetchFiltersThunk } from '../../actions';
+import { setActiveFilter } from "./filtersSlice";
 import { useHttp } from '../../hooks/http.hook'
 
 const HeroesFilters = () => {
