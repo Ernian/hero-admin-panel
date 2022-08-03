@@ -1,10 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-    createHeroThunk,
-    updateHeroThunk,
-    setIdUpdateHero,
-} from '../../actions';
+import { createHeroThunk, updateHeroThunk } from '../../actions';
+import { setIdUpdateHero } from '../heroesList/heroesSlice'
 import { useHttp } from '../../hooks/http.hook'
 import { v4 as uuidv4 } from 'uuid'
 

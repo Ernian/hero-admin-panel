@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { heroReducer as heroes } from '../reducers/heroReducer';
+import heroes from '../components/heroesList/heroesSlice';
 import { filterReducer as filters } from '../reducers/filterReducer';
 
 const store = configureStore({

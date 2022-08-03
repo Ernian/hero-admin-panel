@@ -2,11 +2,8 @@ import { useHttp } from '../../hooks/http.hook';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CSSTransition, TransitionGroup, } from 'react-transition-group';
-import {
-    fetchHeroesThunk,
-    deleteHeroThunk,
-    setIdUpdateHero
-} from '../../actions';
+import { fetchHeroesThunk, deleteHeroThunk, } from '../../actions';
+import { setIdUpdateHero } from './heroesSlice'
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
 
@@ -26,8 +23,8 @@ const HeroesList = () => {
         return <h5 className="text-center mt-5">Ошибка загрузки</h5>
     }
 
-    const filterHeroList = heroesList => {
-        return heroesList.filter(({ element }) => !activeFilter || element === activeFilter)
+    const filterHeroList = heroes => {
+        return heroes.filter(({ element }) => !activeFilter || element === activeFilter)
     }
 
     const onDeleteHero = heroId => dispatch(deleteHeroThunk(request, heroId))
