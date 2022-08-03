@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createHeroThunk, updateHeroThunk } from '../../actions';
+import { createHeroThunk, updateHeroThunk } from '../heroesList/heroesSlice'
 import { setIdUpdateHero } from '../heroesList/heroesSlice'
-import { useHttp } from '../../hooks/http.hook'
 import { v4 as uuidv4 } from 'uuid'
 
 
@@ -11,7 +10,6 @@ const HeroesAddForm = () => {
     const [description, setDescription] = useState('')
     const [element, setElement] = useState('')
     const [selectedHero, setSelectedHero] = useState({})
-    const { request } = useHttp()
     const dispatch = useDispatch()
     const filters = useSelector(state => state.filters.filters)
     const { updateHeroId, heroes } = useSelector(state => state.heroes)
@@ -50,7 +48,8 @@ const HeroesAddForm = () => {
             description,
             element
         })
-        dispatch(createHeroThunk(request, hero, clearForm))
+        dispatch(createHeroThunk(hero))
+        clearForm()
     }
 
     function onUpdateHero(event) {
@@ -61,7 +60,8 @@ const HeroesAddForm = () => {
             description,
             element
         })
-        dispatch(updateHeroThunk(request, updateHeroId, hero, clearForm))
+        dispatch(updateHeroThunk({ updateHeroId, hero }))
+        clearForm()
     }
 
     function getOptions() {

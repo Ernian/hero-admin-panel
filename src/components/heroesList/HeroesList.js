@@ -1,9 +1,7 @@
-import { useHttp } from '../../hooks/http.hook';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CSSTransition, TransitionGroup, } from 'react-transition-group';
-import { fetchHeroesThunk, deleteHeroThunk, } from '../../actions';
-import { setIdUpdateHero } from './heroesSlice'
+import { fetchHeroesThunk, deleteHeroThunk, setIdUpdateHero } from './heroesSlice'
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
 
@@ -11,10 +9,9 @@ const HeroesList = () => {
     const { heroes, heroesLoadingStatus, updateHeroId } = useSelector(state => state.heroes);
     const { activeFilter } = useSelector(state => state.filters)
     const dispatch = useDispatch();
-    const { request } = useHttp();
 
     useEffect(() => {
-        dispatch(fetchHeroesThunk(request))
+        dispatch(fetchHeroesThunk())
     }, []);
 
     if (heroesLoadingStatus === "loading") {
@@ -27,7 +24,7 @@ const HeroesList = () => {
         return heroes.filter(({ element }) => !activeFilter || element === activeFilter)
     }
 
-    const onDeleteHero = heroId => dispatch(deleteHeroThunk(request, heroId))
+    const onDeleteHero = heroId => dispatch(deleteHeroThunk(heroId))
     const onSetIdUpdateHero = heroId => dispatch(setIdUpdateHero(heroId))
 
     const renderHeroesList = filteredHeroes => {
