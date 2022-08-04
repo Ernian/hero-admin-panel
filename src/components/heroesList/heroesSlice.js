@@ -2,8 +2,33 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     heroesLoadingStatus: 'idle',
-    heroes: [],
-    updateHeroId: null
+    updateHeroId: null,
+    heroes: [
+        {
+            "id": 1,
+            "name": "Первый герой",
+            "description": "Первый герой в рейтинге!!",
+            "element": "fire"
+        },
+        {
+            "id": 2,
+            "name": "Неизвестный герой",
+            "description": "Скрывающийся в тени",
+            "element": "wind"
+        },
+        {
+            "id": 3,
+            "name": "Морской герой",
+            "description": "Как аквамен, но не из DC",
+            "element": "water"
+        },
+        {
+            "id": "63e4ef3e-afad-4a1c-9753-10d3eaef065d",
+            "name": "fireMan",
+            "description": "wowowoooooo",
+            "element": "fire"
+        }
+    ]
 }
 
 const heroesSlice = createSlice({
@@ -21,10 +46,9 @@ const heroesSlice = createSlice({
             state.heroes = state.heroes.filter(hero => hero.id !== action.payload)
         },
         updateHero: (state, action) => {
-            const payload = JSON.parse(action.payload)
             state.heroes = state.heroes.map(hero => {
-                if (hero.id === payload.id) {
-                    return payload
+                if (hero.id === action.payload.id) {
+                    return action.payload
                 }
                 return hero
             })

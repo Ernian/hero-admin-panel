@@ -2,8 +2,29 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     filtersLoadingStatus: 'idle',
-    filters: [],
-    activeFilter: null
+    activeFilter: null,
+    filters: [
+        {
+            "filter": "fire",
+            "lable": "Огонь",
+            "classNames": "btn btn-danger"
+        },
+        {
+            "filter": "water",
+            "lable": "Вода",
+            "classNames": "btn btn-primary"
+        },
+        {
+            "filter": "wind",
+            "lable": "Ветер",
+            "classNames": "btn btn-success"
+        },
+        {
+            "filter": "earth",
+            "lable": "Земля",
+            "classNames": "btn btn-secondary"
+        }
+    ]
 }
 
 const filtersSlice = createSlice({

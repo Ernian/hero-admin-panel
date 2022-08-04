@@ -1,17 +1,9 @@
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchFiltersThunk } from '../../actions';
 import { setActiveFilter } from "./filtersSlice";
-import { useHttp } from '../../hooks/http.hook'
 
 const HeroesFilters = () => {
-    const { request } = useHttp()
     const dispatch = useDispatch()
     const { filters, activeFilter } = useSelector(store => store.filters)
-
-    useEffect(() => {
-        dispatch(fetchFiltersThunk(request))
-    }, [])
 
     function getFilters() {
         return filters.map(({ filter, lable, classNames }) => {

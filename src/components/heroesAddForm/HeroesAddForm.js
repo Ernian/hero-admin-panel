@@ -1,17 +1,13 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createHeroThunk, updateHeroThunk } from '../../actions';
-import { setIdUpdateHero } from '../heroesList/heroesSlice'
-import { useHttp } from '../../hooks/http.hook'
+import { createHero, updateHero, setIdUpdateHero } from '../heroesList/heroesSlice'
 import { v4 as uuidv4 } from 'uuid'
-
 
 const HeroesAddForm = () => {
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
     const [element, setElement] = useState('')
     const [selectedHero, setSelectedHero] = useState({})
-    const { request } = useHttp()
     const dispatch = useDispatch()
     const filters = useSelector(state => state.filters.filters)
     const { updateHeroId, heroes } = useSelector(state => state.heroes)
@@ -44,24 +40,26 @@ const HeroesAddForm = () => {
     function onCreateHero(event) {
         event.preventDefault()
         if (!(name && description && element)) return
-        const hero = JSON.stringify({
+        const hero = {
             id: uuidv4(),
             name,
             description,
             element
-        })
-        dispatch(createHeroThunk(request, hero, clearForm))
+        }
+        dispatch(createHero(hero))
+        clearForm()
     }
 
     function onUpdateHero(event) {
         event.preventDefault()
-        const hero = JSON.stringify({
+        const hero = {
             id: updateHeroId,
             name,
             description,
             element
-        })
-        dispatch(updateHeroThunk(request, updateHeroId, hero, clearForm))
+        }
+        dispatch(updateHero(hero))
+        clearForm()
     }
 
     function getOptions() {
